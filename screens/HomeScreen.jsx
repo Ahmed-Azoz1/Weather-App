@@ -10,7 +10,7 @@ const HomeScreen = () => {
     const [locations,setLocations] = useState([1,2,3])
 
     const handleLocation = (item)=>{
-        
+
     }
 
     return (
@@ -52,6 +52,20 @@ const HomeScreen = () => {
                         ) : 
                         null
                     }
+                </View>
+                {/* section */}
+                <View className="flex justify-around flex-1 mx-4 mb-2">
+                    {/* location */}
+                    <Text className="text-white text-center text-2xl font-bold">
+                        London,
+                        <Text className="text-lg font-semibold text-gray-300">
+                            United Kingdom
+                        </Text>
+                    </Text>
+                    {/* image */}
+                    <View className="flex-row justify-center">
+                        <Image className="w-52 h-52" source={require('../assets/images/partlycloudy.png')}/>
+                    </View>
                 </View>
             </SafeAreaView>
             
