@@ -66,6 +66,15 @@ const HomeScreen = () => {
                     <View className="flex-row justify-center">
                         <Image className="w-52 h-52" source={require('../assets/images/partlycloudy.png')}/>
                     </View>
+                    {/* details */}
+                    <View className="space-y-2">
+                        <Text className="text-center font-bold text-white text-6xl ml-5">
+                            30&#176;
+                        </Text>
+                        <Text className="text-center font-bold text-white text-xl tracking-widest">
+                            Sunny
+                        </Text>
+                    </View>
                 </View>
             </SafeAreaView>
             
