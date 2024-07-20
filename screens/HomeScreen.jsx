@@ -108,6 +108,7 @@ const HomeScreen = () => {
                             Daily
                         </Text>
                     </View>
+
                     <ScrollView
                         horizontal
                         contentContainerStyle={{paddingHorizontal:15}}
@@ -125,7 +126,47 @@ const HomeScreen = () => {
                                 30&#176;
                             </Text>
                         </View>
+
+                        <View 
+                            style={{backgroundColor:theme.bgWhite(0.15)}}
+                            className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
+                        >
+                            <Image className="w-11 h-11" source={require('../assets/images/heavyrain.png')}/>
+                            <Text className="text-white">
+                                Monday
+                            </Text>
+                            <Text className="text-white text-xl font-semibold">
+                                30&#176;
+                            </Text>
+                        </View>
+
+                        <View 
+                            style={{backgroundColor:theme.bgWhite(0.15)}}
+                            className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
+                        >
+                            <Image className="w-11 h-11" source={require('../assets/images/heavyrain.png')}/>
+                            <Text className="text-white">
+                                Monday
+                            </Text>
+                            <Text className="text-white text-xl font-semibold">
+                                30&#176;
+                            </Text>
+                        </View>
+
+                        <View 
+                            style={{backgroundColor:theme.bgWhite(0.15)}}
+                            className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
+                        >
+                            <Image className="w-11 h-11" source={require('../assets/images/heavyrain.png')}/>
+                            <Text className="text-white">
+                                Monday
+                            </Text>
+                            <Text className="text-white text-xl font-semibold">
+                                30&#176;
+                            </Text>
+                        </View>
                     </ScrollView>
+                    
                 </View>
             </SafeAreaView>
             
