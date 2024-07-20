@@ -1,8 +1,8 @@
-import { View, Text, Image, SafeAreaView, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { theme } from '../theme';
-import {MagnifyingGlassIcon} from 'react-native-heroicons/outline'
+import {CalendarDaysIcon, MagnifyingGlassIcon} from 'react-native-heroicons/outline'
 import {MapPinIcon} from 'react-native-heroicons/solid'
 
 const HomeScreen = () => {
@@ -98,6 +98,34 @@ const HomeScreen = () => {
                             </Text>
                         </View>
                     </View>
+                </View>
+
+                {/* next days */}
+                <View className="mb-2 space-y-3">
+                    <View className="flex-row items-center mx-5 space-x-2">
+                        <CalendarDaysIcon size={22} color='white'/>
+                        <Text className="text-white text-base">
+                            Daily
+                        </Text>
+                    </View>
+                    <ScrollView
+                        horizontal
+                        contentContainerStyle={{paddingHorizontal:15}}
+                        showsHorizontalScrollIndicator={false}
+                    >
+                        <View 
+                            style={{backgroundColor:theme.bgWhite(0.15)}}
+                            className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
+                        >
+                            <Image className="w-11 h-11" source={require('../assets/images/heavyrain.png')}/>
+                            <Text className="text-white">
+                                Monday
+                            </Text>
+                            <Text className="text-white text-xl font-semibold">
+                                30&#176;
+                            </Text>
+                        </View>
+                    </ScrollView>
                 </View>
             </SafeAreaView>
             
