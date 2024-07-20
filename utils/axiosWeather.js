@@ -36,4 +36,4 @@ const locationsEndpoint = (params)=>`https://api.weatherapi.com/v1/current.json?
 
 
 
-export {forecastEndpoint,locationsEndpoint}
+export {forecastEndpoint,locationsEndpoint,weatherImages}

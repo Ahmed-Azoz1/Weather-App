@@ -7,6 +7,7 @@ import {MapPinIcon} from 'react-native-heroicons/solid'
 
 import { debounce } from 'lodash';
 import { GetLocations, GetWeatherForecast } from '../utils/apiWeather';
+import { weatherImages } from '../utils/axiosWeather';
 
 
 const HomeScreen = () => {
@@ -14,7 +15,7 @@ const HomeScreen = () => {
     const [locations,setLocations] = useState([])
     const [weather,setWeather] = useState({})
 
-
+    
     const handleLocation = (location)=>{
         setLocations([]);
         setShowSearch(false);
@@ -34,6 +35,8 @@ const HomeScreen = () => {
             })
         }
     }
+
+    const {current,location} = weather;
 
     const handleText = useCallback(debounce(handleSearch,1200),[])
 
@@ -83,22 +86,23 @@ const HomeScreen = () => {
                 <View className="flex justify-around flex-1 mx-4 mb-2">
                     {/* location */}
                     <Text className="text-white text-center text-2xl font-bold">
-                        London,
+                        {location?.name},
                         <Text className="text-lg font-semibold text-gray-300">
-                            United Kingdom
+                            {" "+ location?.country}
                         </Text>
                     </Text>
                     {/* image */}
                     <View className="flex-row justify-center">
-                        <Image className="w-52 h-52" source={require('../assets/images/partlycloudy.png')}/>
+                        {/* source={{uri:`https:${current?.condition?.icon}`}} */}
+                        <Image className="w-52 h-52" source={weatherImages[current?.condition?.text]} />
                     </View>
                     {/* details */}
                     <View className="space-y-2">
                         <Text className="text-center font-bold text-white text-6xl ml-5">
-                            30&#176;
+                            {current?.temp_c}&#176;
                         </Text>
                         <Text className="text-center font-bold text-white text-xl tracking-widest">
-                            Sunny
+                            {current?.condition?.text}
                         </Text>
                     </View>
                     {/* other status */}
