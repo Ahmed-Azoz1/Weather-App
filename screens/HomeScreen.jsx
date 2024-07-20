@@ -1,17 +1,34 @@
 import { View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { theme } from '../theme';
 import {CalendarDaysIcon, MagnifyingGlassIcon} from 'react-native-heroicons/outline'
 import {MapPinIcon} from 'react-native-heroicons/solid'
 
+import { debounce } from 'lodash';
+import { GetLocations } from '../utils/apiWeather';
+
+
 const HomeScreen = () => {
     const [showSearch,setShowSearch] = useState(false)
     const [locations,setLocations] = useState([1,2,3])
 
-    const handleLocation = (item)=>{
+    
 
+    const handleLocation = (location)=>{
+        console.log('location:  ',location)
     }
+    
+    const handleSearch = (value)=>{
+        // get locations
+        if(value.length>2){
+            GetLocations({cityName:value}).then((data)=>{
+                setLocations(data);
+            })
+        }
+    }
+
+    const handleText = useCallback(debounce(handleSearch,1200),[])
 
     return (
         <View className="flex-1 relative">
@@ -24,7 +41,9 @@ const HomeScreen = () => {
                     <View style={{backgroundColor: showSearch ? theme.bgWhite(0.2) : 'transparent'}} className="flex-row justify-end items-center rounded-full">
                         {
                             showSearch ? (
-                                <TextInput className="text-white text-base flex-1 h-10 pb-1 pl-6" placeholder='Search City' placeholderTextColor={'lightgray'} />
+                                <TextInput 
+                                onChangeText={handleText}
+                                className="text-white text-base flex-1 h-10 pb-1 pl-6" placeholder='Search City' placeholderTextColor={'lightgray'} />
                             ) : null
                         }
                         <TouchableOpacity onPress={()=>setShowSearch(!showSearch)} className="rounded-full p-3 m-1" style={{backgroundColor:theme.bgWhite(0.3)}}>
@@ -166,7 +185,7 @@ const HomeScreen = () => {
                             </Text>
                         </View>
                     </ScrollView>
-                    
+
                 </View>
             </SafeAreaView>
             
