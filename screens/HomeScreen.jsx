@@ -6,17 +6,24 @@ import {CalendarDaysIcon, MagnifyingGlassIcon} from 'react-native-heroicons/outl
 import {MapPinIcon} from 'react-native-heroicons/solid'
 
 import { debounce } from 'lodash';
-import { GetLocations } from '../utils/apiWeather';
+import { GetLocations, GetWeatherForecast } from '../utils/apiWeather';
 
 
 const HomeScreen = () => {
     const [showSearch,setShowSearch] = useState(false)
-    const [locations,setLocations] = useState([1,2,3])
+    const [locations,setLocations] = useState([])
+    const [weather,setWeather] = useState({})
 
-    
 
     const handleLocation = (location)=>{
-        console.log('location:  ',location)
+        setLocations([]);
+        setShowSearch(false);
+        GetWeatherForecast({
+            cityName:location.name,
+            day:'7'
+        }).then((data)=>{
+            setWeather(data);
+        })
     }
     
     const handleSearch = (value)=>{
@@ -61,7 +68,7 @@ const HomeScreen = () => {
                                         return  (
                                             <TouchableOpacity onPress={()=>handleLocation(item)} key={index} className={"flex-row items-center border-0 p-3 px-4 mb-1"+boderClass}>
                                                 <MapPinIcon size={20} color="gray"/>
-                                                <Text className="text-black text-lg ml-2">London</Text>
+                                                <Text className="text-black text-lg ml-2">{item?.name}, {item?.country}</Text>
                                             </TouchableOpacity>
                                         )
                                     }
