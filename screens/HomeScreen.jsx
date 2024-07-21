@@ -10,6 +10,7 @@ import { GetLocations, GetWeatherForecast } from '../utils/apiWeather';
 import { weatherImages } from '../utils/axiosWeather';
 
 import * as Progress from 'react-native-progress';
+import { getData, storeData } from '../utils/asyncStorage';
 
 
 const HomeScreen = () => {
@@ -28,6 +29,7 @@ const HomeScreen = () => {
             day:'7'
         }).then((data)=>{
             setWeather(data);
+            storeData('city',location.name)
             setLoading(false)
         })
     }
@@ -46,14 +48,23 @@ const HomeScreen = () => {
     const handleText = useCallback(debounce(handleSearch,1200),[])
 
     useEffect(()=>{
+        GetWeatherData();
+    },[])
+
+    const GetWeatherData = async ()=>{
+        let myCity = await getData('city');
+        let cityName = 'Islamabad';
+        if(myCity) {
+            return cityName = myCity;
+        }
         GetWeatherForecast({
-            cityName:'Islamabad',
+            cityName,
             days:'7'
         }).then((data)=>{
             setWeather(data)
             setLoading(false)
         })
-    },[])
+    }
 
     return (
         <View className="flex-1 relative">
