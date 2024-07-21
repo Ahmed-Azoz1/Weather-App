@@ -110,14 +110,14 @@ const HomeScreen = () => {
                         <View className="flex-row space-x-2 items-center">
                             <Image source={require('../assets/icons/wind.png')} className="h-6 w-6" />
                             <Text className="text-white font-semibold text-base">
-                                22km
+                                {current?.wind_kph}km
                             </Text>
                         </View>
 
                         <View className="flex-row space-x-2 items-center">
                             <Image source={require('../assets/icons/drop.png')} className="h-6 w-6" />
                             <Text className="text-white font-semibold text-base">
-                                30%
+                                {current?.humidity}%
                             </Text>
                         </View>
 
@@ -144,57 +144,31 @@ const HomeScreen = () => {
                         contentContainerStyle={{paddingHorizontal:15}}
                         showsHorizontalScrollIndicator={false}
                     >
-                        <View 
-                            style={{backgroundColor:theme.bgWhite(0.15)}}
-                            className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
-                        >
-                            <Image className="w-11 h-11" source={require('../assets/images/heavyrain.png')}/>
-                            <Text className="text-white">
-                                Monday
-                            </Text>
-                            <Text className="text-white text-xl font-semibold">
-                                30&#176;
-                            </Text>
-                        </View>
-
-                        <View 
-                            style={{backgroundColor:theme.bgWhite(0.15)}}
-                            className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
-                        >
-                            <Image className="w-11 h-11" source={require('../assets/images/heavyrain.png')}/>
-                            <Text className="text-white">
-                                Monday
-                            </Text>
-                            <Text className="text-white text-xl font-semibold">
-                                30&#176;
-                            </Text>
-                        </View>
-
-                        <View 
-                            style={{backgroundColor:theme.bgWhite(0.15)}}
-                            className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
-                        >
-                            <Image className="w-11 h-11" source={require('../assets/images/heavyrain.png')}/>
-                            <Text className="text-white">
-                                Monday
-                            </Text>
-                            <Text className="text-white text-xl font-semibold">
-                                30&#176;
-                            </Text>
-                        </View>
-
-                        <View 
-                            style={{backgroundColor:theme.bgWhite(0.15)}}
-                            className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
-                        >
-                            <Image className="w-11 h-11" source={require('../assets/images/heavyrain.png')}/>
-                            <Text className="text-white">
-                                Monday
-                            </Text>
-                            <Text className="text-white text-xl font-semibold">
-                                30&#176;
-                            </Text>
-                        </View>
+                    
+                        {
+                            weather?.forecast?.forecastday?.map((item,index)=>{
+                                let date = new Date(item?.date)
+                                let options = {weekday:'long'};
+                                let dayName = date.toLocaleDateString('en-US',options).split(',')[0]
+                                // dayName = dayName.split(',')[0]
+                                return(
+                                    <View 
+                                    key={index}
+                                    style={{backgroundColor:theme.bgWhite(0.15)}}
+                                    className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
+                                    >
+                                        <Image className="w-11 h-11" source={weatherImages[item?.day?.condition?.text]}/>
+                                        <Text className="text-white">
+                                            {item?.date}
+                                        </Text>
+                                        <Text className="text-white text-xl font-semibold">
+                                            {item?.day?.avgtemp_c}&#176;
+                                        </Text>
+                                    </View>
+                                )
+                            })
+                        }
+                    
                     </ScrollView>
 
                 </View>
