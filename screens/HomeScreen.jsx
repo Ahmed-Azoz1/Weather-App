@@ -7,7 +7,7 @@ import {MapPinIcon} from 'react-native-heroicons/solid'
 
 import { debounce } from 'lodash';
 import { GetLocations, GetWeatherForecast } from '../utils/apiWeather';
-import { weatherImages } from '../utils/axiosWeather';
+import { weatherImages, weatherImagesAr } from '../utils/axiosWeather';
 
 import * as Progress from 'react-native-progress';
 import { getData, storeData } from '../utils/asyncStorage';
@@ -21,12 +21,12 @@ const HomeScreen = () => {
 
     
     const handleLocation = (location)=>{
-        setLocations([]);
+        // setLocations([]);
         setShowSearch(false);
         setLoading(true)
         GetWeatherForecast({
             cityName:location.name,
-            day:'7'
+            days:'7'
         }).then((data)=>{
             setWeather(data);
             storeData('city',location.name)
@@ -43,9 +43,9 @@ const HomeScreen = () => {
         }
     }
 
-    const {current,location} = weather;
+    const handleText = useCallback(debounce(handleSearch, 400), []);
 
-    const handleText = useCallback(debounce(handleSearch,1200),[])
+    const { current, location } = weather;
 
     useEffect(()=>{
         GetWeatherData();
@@ -53,10 +53,9 @@ const HomeScreen = () => {
 
     const GetWeatherData = async ()=>{
         let myCity = await getData('city');
-        let cityName = 'Islamabad';
-        if(myCity) {
-            return cityName = myCity;
-        }
+        let cityName = 'القاهرة';
+        if(myCity) cityName = myCity;
+        
         GetWeatherForecast({
             cityName,
             days:'7'
@@ -82,7 +81,7 @@ const HomeScreen = () => {
                     <SafeAreaView className="flex flex-1 pt-14 px-4">
                         <View style={{height:'7%'}}>
 
-                            <View style={{backgroundColor: showSearch ? theme.bgWhite(0.2) : 'transparent'}} className="flex-row justify-end items-center rounded-full">
+                            <View style={{backgroundColor: showSearch ? theme.bgWhite(0.2) : 'transparent'}} className="flex-row justify-end items-center rounded-full z-10">
                                 {
                                     showSearch ? (
                                         <TextInput 
@@ -90,37 +89,47 @@ const HomeScreen = () => {
                                         className="text-white text-base flex-1 h-10 pb-1 pl-6" placeholder='Search City' placeholderTextColor={'lightgray'} />
                                     ) : null
                                 }
-                                <TouchableOpacity onPress={()=>setShowSearch(!showSearch)} className="rounded-full p-3 m-1" style={{backgroundColor:theme.bgWhite(0.3)}}>
+                                <TouchableOpacity 
+                                    onPress={()=>setShowSearch(!showSearch)} 
+                                    className="rounded-full p-3 m-1" 
+                                    style={{backgroundColor:theme.bgWhite(0.3)}}
+                                    >
                                     <MagnifyingGlassIcon size={25} color="white" />
                                 </TouchableOpacity>
                             </View>
+                            
                             {
-                                locations.length > 0 && showSearch ? 
-                                (
-                                    <View className="absolute w-full bg-gray-200 top-16 rounded-3xl">
+                                locations.length > 0 && showSearch ? (
+                                    <View className="absolute w-full bg-gray-200 top-16 rounded-3xl z-10">
                                         {
                                             locations.map((item,index)=>{
-                                                let showBorder = index+1 != locations.length;
+                                                let showBorder = index + 1 != locations.length;
                                                 let boderClass = showBorder ? 'border-b-2 border-b-gray-300' : '';
+                                                
                                                 return  (
-                                                    <TouchableOpacity onPress={()=>handleLocation(item)} key={index} className={"flex-row items-center border-0 p-3 px-4 mb-1"+boderClass}>
+                                                    <TouchableOpacity 
+                                                        onPress={()=>handleLocation(item)} 
+                                                        key={index} 
+                                                        className={`flex-row items-center border-0 p-3 px-4 mb-1 ${boderClass}`}
+                                                        >
                                                         <MapPinIcon size={20} color="gray"/>
                                                         <Text className="text-black text-lg ml-2">{item?.name}, {item?.country}</Text>
                                                     </TouchableOpacity>
                                                 )
-                                            }
+                                                }
                                             )
                                         }
                                     </View>
-                                ) : 
-                                null
+                                ):null
                             }
-                        </View>
+                            </View>
+
                         {/* section */}
                         <View className="flex justify-around flex-1 mx-4 mb-2">
                             {/* location */}
                             <Text className="text-white text-center text-2xl font-bold">
                                 {location?.name},
+                                
                                 <Text className="text-lg font-semibold text-gray-300">
                                     {" "+ location?.country}
                                 </Text>
@@ -128,7 +137,8 @@ const HomeScreen = () => {
                             {/* image */}
                             <View className="flex-row justify-center">
                                 {/* source={{uri:`https:${current?.condition?.icon}`}} */}
-                                <Image className="w-52 h-52" source={weatherImages[current?.condition?.text]} />
+                                {/* source={weatherImages[current?.condition?.text]} */}
+                                <Image className="w-52 h-52" source={weatherImagesAr[current?.condition?.code]} />
                             </View>
                             {/* details */}
                             <View className="space-y-2">
@@ -181,19 +191,21 @@ const HomeScreen = () => {
                             
                                 {
                                     weather?.forecast?.forecastday?.map((item,index)=>{
-                                        let date = new Date(item?.date)
+                                        let date = new Date(item?.date);
                                         let options = {weekday:'long'};
-                                        let dayName = date.toLocaleDateString('en-US',options).split(',')[0]
-                                        // dayName = dayName.split(',')[0]
+                                        let dayName = date.toLocaleDateString('en-US',options)
+                                        dayName = dayName.split(',')[0]
                                         return(
                                             <View 
                                             key={index}
                                             style={{backgroundColor:theme.bgWhite(0.15)}}
                                             className="flex justify-center w-24 rounded-3xl py-3 space-y-1 mr-4 items-center"
                                             >
-                                                <Image className="w-11 h-11" source={weatherImages[item?.day?.condition?.text]}/>
+                                                {/* source={weatherImagesAr[item?.day?.condition?.text]} */}
+                                                {/* source={{uri:`https:${item?.day?.condition?.icon}`}} */}
+                                                <Image className="w-11 h-11" source={weatherImagesAr[item?.day?.condition?.code]}/>
                                                 <Text className="text-white">
-                                                    {item?.date}
+                                                    {dayName}
                                                 </Text>
                                                 <Text className="text-white text-xl font-semibold">
                                                     {item?.day?.avgtemp_c}&#176;
