@@ -7,7 +7,7 @@ import {MapPinIcon} from 'react-native-heroicons/solid'
 
 import { debounce } from 'lodash';
 import { GetLocations, GetWeatherForecast } from '../utils/apiWeather';
-import { weatherImages, weatherImagesAr } from '../utils/axiosWeather';
+import { weatherImagesAr } from '../utils/axiosWeather';
 
 import * as Progress from 'react-native-progress';
 import { getData, storeData } from '../utils/asyncStorage';
@@ -86,7 +86,7 @@ const HomeScreen = () => {
                                     showSearch ? (
                                         <TextInput 
                                         onChangeText={handleText}
-                                        className="text-white text-base flex-1 h-10 pb-1 pl-6" placeholder='Search City' placeholderTextColor={'lightgray'} />
+                                        className="text-white text-base flex-1 h-10 pb-1 pl-6" placeholder='بحث عن المدينة' placeholderTextColor={'lightgray'} />
                                     ) : null
                                 }
                                 <TouchableOpacity 
@@ -179,7 +179,7 @@ const HomeScreen = () => {
                             <View className="flex-row items-center mx-5 space-x-2">
                                 <CalendarDaysIcon size={22} color='white'/>
                                 <Text className="text-white text-base">
-                                    Daily
+                                    الايام المقبلة
                                 </Text>
                             </View>
 
